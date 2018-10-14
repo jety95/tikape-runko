@@ -9,23 +9,28 @@
         <h1>Tallennetut vastaukset kysymyksen indeksin mukaan:</h1>
         <ul>
             <li th:each="vastaus: ${vastaukset}">
-                <span th:text="${vastaus.kysymys_id}">teksti</span>
-                <span th:text="${vastaus.vastausteksti}">tekst</span>
+                Kysymyksen id: 
+                <span th:text="${vastaus.kysymys_id}">teksti</span><br/>
+                Vastaus: 
+                <span th:text="${vastaus.vastausteksti}">tekst</span><br/>
+                Oikeellisuus: 
+                <span th:text="${vastaus.oikein}">true</span><br/>
                 <form th:action="@{~/delet/{id}(id=${vastaus.id})}" method="POST">
                     <input type="submit" value="Poista"/>
                 </form>
             </li>
         </ul>
+        <h2>Uuden vastauksen anto:</h2>
         <form method="POST" action="/vastaukset">
-            Kysymyksen id: (kysymys linkistä selaamaan<br/>
+            Kysymyksen id: (kysymys linkki selaamaan)<br/>
             <input type="text" name="kysymys_id"/><br/>
             Vastaus:<br/>
             <input type="text" name="vastaus"/><br/>
             Onko oikein (TRUE/FALSE):<br/>
             <input type="text" name="oikeus"/><br/>
-            <input type="submit" value="Lisää vastaus!"/>
+            <input type="submit" value="Uusi vastaus!"/>
         </form>
-        <p><a href="/">Takaisin.</a></p>
         <p><a href="/kysymykset">Kysymyksiin.</a></p>
+        <p><a href="/">Alkuun.</a></p>
     </body>
 </html>

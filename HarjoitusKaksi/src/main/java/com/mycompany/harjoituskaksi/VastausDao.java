@@ -85,24 +85,34 @@ public class VastausDao implements Dao<Vastaus, Integer> {
 
         return vastaukset;
     }
-    public List<String> findVastaukset(Integer key) throws SQLException {
+    public List<Vastaus> findVastaukset(Integer key) throws SQLException {
 
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Vastaus WHERE kysymys_id = ?");
         stmt.setObject(1, key);
 
         ResultSet rs = stmt.executeQuery();
-        List<String> Vastaukset = new ArrayList<>();
+        List<Vastaus> vastaukset = new ArrayList<>();
         while (rs.next()) {
-            String vast = rs.getString("vastausteksti");
-            Vastaukset.add(vast);
+            
+            Integer id = rs.getInt("id");
+            Integer kysy = rs.getInt("kysymys_id");
+            String aih = rs.getString("vastausteksti");
+            String oikeus = rs.getString("oikein");
+            Boolean oikeu = false;
+        if (oikeus.equals("TRUE")){
+            oikeu = true;
+        }
+
+        Vastaus o = new Vastaus(id, kysy, aih, oikeu);
+        vastaukset.add(o);
         }
 
         rs.close();
         stmt.close();
         connection.close();
 
-        return Vastaukset;
+        return vastaukset;
     }
     public void add(Integer kysymys_id, String vastaus, String oikeus) throws SQLException {
         Connection connection = database.getConnection();
@@ -120,6 +130,20 @@ public class VastausDao implements Dao<Vastaus, Integer> {
         // ei toteutettu
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("DELETE FROM Vastaus WHERE id = ?");
+        stmt.setObject(1, key);
+
+        stmt.executeUpdate();
+
+        stmt.close();
+        connection.close();
+
+        
+        
+    }
+    public void deleteId(Integer key) throws SQLException {
+        // ei toteutettu
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("DELETE FROM Vastaus WHERE kysymys_id = ?");
         stmt.setObject(1, key);
 
         stmt.executeUpdate();

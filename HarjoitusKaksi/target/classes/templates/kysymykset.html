@@ -6,16 +6,26 @@
         <meta charset="utf-8" />
     </head>
     <body>
-        <h1>Heippa vaan! Kaikki nykyiset kysymykset:</h1>
+        <h1>Alla listattu kaikki nykyiset kysymykset:</h1>
         <ul>
             <li th:each="kysymys: ${kysymykset}">
-                <span th:text="${kysymys.id}">1</span>
+                Kysymyksen id: 
+                <span th:text="${kysymys.id}">1</span><br/>
+                Kurssi: 
+                <span th:text="${kysymys.kurssi}">1</span><br/>
+                Aihe: 
+                <span th:text="${kysymys.aihe}">1</span><br/>
+                Kysymys: 
                 <span th:text="${kysymys.kysymysteksti}">Essi esimerkki</span>
+                <form th:action="@{~/vastaus/{id}(id=${kysymys.id})}" method="GET">
+                    <input type="submit" value="Vastaukset"/>
+                </form>
                 <form th:action="@{~/delete/{id}(id=${kysymys.id})}" method="POST">
                     <input type="submit" value="Poista"/>
                 </form>
             </li>
         </ul>
+        <h2>Uusi kysymys:</h2>
         <form method="POST" action="/kysymykset">
             Kurssi:<br/>
             <input type="text" name="kurssi"/><br/>
@@ -23,9 +33,9 @@
             <input type="text" name="aihe"/><br/>
             Kysymys:<br/>
             <input type="text" name="kysymysteksti"/><br/>
-            <input type="submit" value="Lisää kysymys"/>
+            <input type="submit" value="Uusi kysymys"/>
         </form>
         <p><a href="/vastaukset">Vastauksiin.</a></p>
-        <p><a href="/">Takaisin.</a></p>
+        <p><a href="/">Alkuun.</a></p>
     </body>
 </html>

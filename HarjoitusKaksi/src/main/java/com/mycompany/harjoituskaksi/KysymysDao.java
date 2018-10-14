@@ -49,6 +49,26 @@ public class KysymysDao implements Dao<Kysymys, Integer> {
 
         return o;
     }
+   public String getTeksti(Integer key) throws SQLException {
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT kysymysteksti FROM Kysymys WHERE id = ?");
+        stmt.setObject(1, key);
+
+        ResultSet rs = stmt.executeQuery();
+        boolean hasOne = rs.next();
+        if (!hasOne) {
+            return null;
+        }
+        
+        String kysy = rs.getString("kysymysteksti");
+
+
+        rs.close();
+        stmt.close();
+        connection.close();
+
+        return kysy;
+    }
 
     @Override
     public List<Kysymys> findAll() throws SQLException {
